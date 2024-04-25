@@ -7,11 +7,22 @@ public class Goods {
 	private int price;
 	private int countStock;
 	private int countSold;
+	public Goods() {
+		this("",0,0,0);
+//		Goods.countOfGoods++;
+	}
 	
-	public Goods() { // 기본 생성자 정의
+	public Goods(String name, int price, int countStock, int countSold) { // 기본 생성자 정의
 		// 클래스 이름 생략 간으
 		Goods.countOfGoods++;
+		
+		// 인스턴스 변수 초기화
+		this.name = name;
+		this.price = price;
+		this.countSold = countSold;
+		this.countStock = countStock;
 	}
+	
 	
 	
 	public int getPrice() {
