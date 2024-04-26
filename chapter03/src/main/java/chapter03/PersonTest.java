@@ -1,4 +1,4 @@
-package creatertest;
+package chapter03;
 
 public class PersonTest {
 

@@ -1,4 +1,4 @@
-package chapter2_1;
+package chapter03;
 
 public class SongTest {
 

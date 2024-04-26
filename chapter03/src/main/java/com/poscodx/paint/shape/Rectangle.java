@@ -1,4 +1,4 @@
-package shape;
+package com.poscodx.paint.shape;
 
 public class Rectangle extends Shape{
 	@Override

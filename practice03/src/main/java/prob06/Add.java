@@ -4,6 +4,6 @@ public class Add extends Arith{
 
 	public void calculate() {
 		int result = a+b;
-		System.out.println(">>" + result );
+		System.out.println(">> " + result );
 	}
 }

@@ -1,6 +1,15 @@
-package shape;
+package com.poscodx.paint.main;
 
-public class PointTest {
+import com.poscodx.paint.i.Drawable;
+import com.poscodx.paint.point.ColorPoint;
+import com.poscodx.paint.point.Point;
+import com.poscodx.paint.shape.Circle;
+import com.poscodx.paint.shape.Rectangle;
+import com.poscodx.paint.shape.Shape;
+import com.poscodx.paint.shape.Triangle;
+import com.poscodx.paint.text.GraphicText;
+
+public class Main {
 	public static void main(String[] args) {
 		Point point = new Point(2,5);
 //		
