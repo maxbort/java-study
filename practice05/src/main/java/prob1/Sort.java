@@ -16,7 +16,17 @@ public class Sort {
 		//
 		// 정렬 알고리즘이 적용된 코드를 여기에 작성합니다.
 		//
-
+		for(int i = 0; i < count; i ++) {
+			for(int j = i+1; j<count; j++) {
+				if(array[i] < array[j]) {
+					int tmp = 0;
+					tmp = array[i];
+					array[i] = array[j];
+					array[j] = tmp;
+				}
+			}
+		}
+		
 		
 		// 결과 출력
 		System.out.println( "\nAfter Sort." );
