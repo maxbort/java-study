@@ -2,10 +2,12 @@ package prob6;
 import java.lang.*;
 
 public class RectTriangle extends Shape {
-
+	private double width;
+	private double height;
 	
 	public RectTriangle(double width, double height) {
-		super(width,height);
+		this.width = width;
+		this.height = height;
 	}
 
 	@Override
