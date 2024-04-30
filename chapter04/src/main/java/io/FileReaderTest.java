@@ -34,7 +34,6 @@ public class FileReaderTest {
 			cnt = 0;
 			data = -1;
 			while((data = is.read()) != -1) {
-				System.out.println(is.read());
 				System.out.print((char) data);
 				cnt++;
 			}
@@ -44,7 +43,7 @@ public class FileReaderTest {
 		}catch (FileNotFoundException e) {
 			System.out.println("file not found: " + e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("error: " + e);
 		} finally {
 			try {
 				if(in != null) {
