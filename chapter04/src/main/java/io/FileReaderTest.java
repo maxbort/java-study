@@ -34,7 +34,7 @@ public class FileReaderTest {
 			cnt = 0;
 			data = -1;
 			while((data = is.read()) != -1) {
-				System.out.println(is.toString());
+				System.out.println(is.read());
 				System.out.print((char) data);
 				cnt++;
 			}
