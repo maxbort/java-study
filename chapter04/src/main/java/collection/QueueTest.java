@@ -18,11 +18,11 @@ public class QueueTest {
 			System.out.println(str);
 		}
 		
-		 q.poll(); // 예외는 아니지만 null값.
-		 
-		 q.offer("마이콜");
+		q.poll(); // 예외는 아니지만 null 값.
+		q.offer("마이콜");
 		q.offer("둘리");
 		q.offer("또치");
+		
 		
 		System.out.println(q.poll());
 		System.out.println(q.peek());

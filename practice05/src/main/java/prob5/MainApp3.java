@@ -4,18 +4,20 @@ public class MainApp3 {
 
 	public static void main(String[] args) {
 		try {
-			MyStack3<String> stack = new MyStack3<String>(3);
+			MyStack3<Object> stack = new MyStack3<Object>(3);
 			stack.push("Hello");
 			stack.push("World");
 			stack.push("!!!");
+			stack.push(1);			
 			stack.push("java");
+			
 			stack.push(".");
 
 			while (stack.isEmpty() == false) {
 				Object s = stack.pop();
 				System.out.println( s );
 			}
-
+			
 			System.out.println("======================================");
 
 			stack = new MyStack3<>(3);
@@ -27,6 +29,7 @@ public class MainApp3 {
 		} catch ( MyStackException ex) {
 			System.out.println(ex);
 		}
+		
 
 	}
 

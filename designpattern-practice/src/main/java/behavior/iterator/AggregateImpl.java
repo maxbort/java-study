@@ -15,7 +15,7 @@ public class AggregateImpl<E> implements Aggregate<E> {
 		
 	}
 	
-	private class IteratorImpl implements Iterator<E> {
+	private class IteratorImpl implements Iterator<E> { // 아이터레이터 잊지말자!!
 		int index = 0;
 		
 		@Override
