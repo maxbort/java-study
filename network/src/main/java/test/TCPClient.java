@@ -37,7 +37,6 @@ public class TCPClient {
 				System.out.println("[client] closed by server");
 				return;
 			}
-			
 			data = new String(buffer, 0, readByteCount, "utf-8"); 
 			System.out.println("[client] received: " + data);
 			
