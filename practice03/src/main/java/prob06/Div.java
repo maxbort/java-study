@@ -5,4 +5,8 @@ public class Div extends Arith{
 		int result = a/b;
 		System.out.println(">> " + result);
 	}
+	
+	public double calculate(int k) {
+		return a/b;
+	}
 }

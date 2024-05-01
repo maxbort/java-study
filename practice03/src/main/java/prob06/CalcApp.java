@@ -40,8 +40,11 @@ public class CalcApp {
 					break;					
 				}
 				case "/" : {
-					arith = new Div();					
+					Div d = new Div();
+					//arith = new Div();	
+					System.out.println(d.calculate(0));
 					break;
+					
 				}
 				default :  {
 					System.out.println( ">> 알 수 없는 연산입니다.");

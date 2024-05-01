@@ -8,4 +8,6 @@ public abstract class Arith{
 		this.a = a;
 		this.b = b;
 	}
+	
+	
 }
