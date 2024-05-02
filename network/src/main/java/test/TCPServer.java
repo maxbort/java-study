@@ -46,13 +46,17 @@ public class TCPServer {
 						break;
 					}
 					
-					String data = new String(buffer, 0, readByteCount, "utf-8");
+					String data = new String(buffer, 0, readByteCount, "UTF-8");
 					System.out.println("[server] received:" + data);
 					
 					// 6. 데이터 쓰기
-					//os.write(data.getBytes("utf-8"));
-					//os.write(buffer);
+					os.write(data.getBytes("utf-8"));
 					
+					try {
+						Thread.sleep(3000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 			} catch(SocketException e) {
 				System.out.println("[server] suddenly closed by client");
@@ -81,5 +85,7 @@ public class TCPServer {
 				e.printStackTrace();
 			}
 		}
+
 	}
+
 }
