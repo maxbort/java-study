@@ -62,6 +62,7 @@ public class EchoRequestHandler extends Thread {
 			}
 		}
 	}
+	
 	public void log(String message) {
 		System.out.println("[EchoServer] " + message);
 	}
