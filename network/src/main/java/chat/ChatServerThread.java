@@ -64,10 +64,19 @@ public class ChatServerThread extends Thread {
 					break;
 				}
 			}
+		}catch (SocketException e){
+			doQuit(pw);
+			ChatServer.log(e.getMessage());
+		}
+		catch (IOException e) {
+		
+			doQuit(pw);
+			ChatServer.log(e.getMessage());
 		} catch (Exception e) {
 			doQuit(pw);
 			ChatServer.log(e.getMessage());
-		}  finally {
+		}
+		finally {
 			try {
 				if (socket != null && !socket.isClosed()) {
 					socket.close();
@@ -108,7 +117,7 @@ public class ChatServerThread extends Thread {
 		broadcast(data);
 
 		addWriter(writer);
-
+		
 //		PrintWriter printWriter = (PrintWriter) writer;
 //		printWriter.println("입장하였습니다. 즐거운 채팅 되세요.");
 	}

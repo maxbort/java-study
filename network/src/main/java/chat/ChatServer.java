@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatServer {
-	public static final int PORT = 8088;
+	public static final int PORT = 8000;
 	// 연결된 클라이언트의 writer 객체들 관리 리스트
 	private static List<Writer> list = new ArrayList<>();
 
@@ -32,6 +32,7 @@ public class ChatServer {
 				// 받아온 소켓으로 새 스레드 시작
 				new ChatServerThread(socket, list).start();
 			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -46,6 +47,6 @@ public class ChatServer {
 	}
 
 	public static void log(String message) {
-		System.out.println("Server " + message);
+		System.out.println("[ChatServer]: " + message);
 	}
 }

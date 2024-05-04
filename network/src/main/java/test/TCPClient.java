@@ -19,7 +19,28 @@ public class TCPClient {
 		try {
 			socket = new Socket();
 		
+			
+			int rcvBufferSize = socket.getSendBufferSize();
+			int sndBufferSize = socket.getReceiveBufferSize();
+			System.out.println(rcvBufferSize + ":" + sndBufferSize);
+			
+			// 1-2. 소켓 버퍼 사이즈 변경 (변경 가능하나 변경하지 않는 것 권장)(변경 주의깊게)
+			socket.setReceiveBufferSize(1024 * 10);
+			socket.setSendBufferSize(1024 * 10);;
+			
 		
+			rcvBufferSize = socket.getSendBufferSize();
+			sndBufferSize = socket.getReceiveBufferSize();
+			System.out.println(rcvBufferSize + ":" + sndBufferSize);
+
+			
+			// 1-3. SO_NODELAY(Nagle 알고리즘 off)
+			socket.setTcpNoDelay(true);
+			
+			// 1-4. SO_TIMEOUT
+			socket.setSoTimeout(3000);
+
+			
 			// 2. 서버연결
 			socket.connect(new InetSocketAddress(SERVER_IP, SERVER_PORT));
 			
@@ -39,12 +60,13 @@ public class TCPClient {
 				return;
 			}
 			
+//			socket.setSoTimeout(3000); // 읽기만 가능
 			
 			data = new String(buffer, 0, readByteCount, "utf-8"); 
 			System.out.println("[client] received: " + data);
 			
 		} catch (SocketException e) {
-			System.out.println("[client] Socket Exception: "+ e);
+			System.out.println("[client] timeout!!! "+ e);
 		}
 		catch (IOException e) {
 			System.out.println("[client] error : " + e);
@@ -57,7 +79,5 @@ public class TCPClient {
 				e.printStackTrace();
 			}
 		}
-		
 	}
-
 }

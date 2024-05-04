@@ -33,12 +33,12 @@ public class ChatClientThread extends Thread {
 
 				if ("message".equals(tokens[0])) {
 					System.out.println(tokens[1]);
-				} else if ("join".equals(tokens[0])) {
-					System.out.println("이거 되면 된다.");
+				} else if ("join:ok".equals(response)) {
+					System.out.println("입장하셨습니다. 즐거운 채팅 되세요~!");
 				}
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			
 		}
 	}
 }

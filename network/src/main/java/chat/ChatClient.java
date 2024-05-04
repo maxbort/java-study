@@ -7,11 +7,12 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class ChatClient {
-	private static final int SERVER_PORT = 8088;
+	private static final int PORT = 8000;
 
 	public static void main(String[] args) {
 		Scanner sc = null;
@@ -20,7 +21,7 @@ public class ChatClient {
 		try {
 			sc = new Scanner(System.in);
 			socket = new Socket();
-			socket.connect(new InetSocketAddress("127.0.0.1", SERVER_PORT));
+			socket.connect(new InetSocketAddress("0.0.0.0", PORT));
 
 			// 서버로부터 데이터를 받아오는 BufferedReader
 			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(),StandardCharsets.UTF_8));
@@ -34,22 +35,18 @@ public class ChatClient {
 			// 서버로 메시지 받아 처리하는 스레드 start
 			new ChatClientThread(br).start();
 
-			// 소켓 받고 대기
-			Thread.sleep(1000);
 			while (true) {
-				String input = sc.nextLine();
+				String str = sc.nextLine();
 
-				if ("quit".equals(input)) {
-					System.out.println("채팅을 종료.");
+				if ("quit".equals(str)) {
+					System.out.println("채팅을 종료합니다.");
 					break;
 				} else {
-					pw.println("message:" + input);
+					pw.println("message:" + str);
 				}
 			}
 		} catch (IOException e) {
-			log("errer : " + e);
-		} catch (InterruptedException e) {
-			log("error : " + e);
+			log(e.getMessage());
 		} finally {
 			try {
 				if (socket != null && !socket.isClosed()) {
@@ -65,6 +62,6 @@ public class ChatClient {
 	}
 
 	public static void log(String message) {
-		System.out.println("[ChatClient] " + message);
+		System.out.println("[ChatClient] : " + message);
 	}
 }
