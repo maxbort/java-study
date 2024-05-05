@@ -113,17 +113,8 @@ public class ChatWindow {
 			return;
 		}
 		
-		if(message.startsWith("/passadmin")) {
-			String[] input = message.split(" ");
-			if(input != null && input.length >= 2) {
-				pw.println("passadmin:" + input[1]);
-				
-				textField.setText("");
-				textField.requestFocus();
+
 		
-				return;
-			}
-		}
 		
 		pw.println("message:ok:" +name +":"+ message);
 		
