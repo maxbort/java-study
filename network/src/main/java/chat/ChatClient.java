@@ -21,6 +21,7 @@ public class ChatClient {
 		try {
 			sc = new Scanner(System.in);
 			socket = new Socket();
+			// 서버에 소켓 연결 요청. 서버에서 요청 받고 accept 함수 이후로 과정 넘어감.
 			socket.connect(new InetSocketAddress("0.0.0.0", PORT));
 
 			// 서버로부터 데이터를 받아오는 BufferedReader
@@ -30,7 +31,7 @@ public class ChatClient {
 
 			System.out.print("닉네임>>");
 			String nickname = sc.nextLine();
-			pw.println("join:" + nickname);
+			pw.println("join:ok:" + nickname);
 
 			// 서버로 메시지 받아 처리하는 스레드 start
 			new ChatClientThread(br).start();
@@ -42,12 +43,13 @@ public class ChatClient {
 					System.out.println("채팅을 종료합니다.");
 					break;
 				} else {
-					pw.println("message:" + str);
+					pw.println("message:ok:"+ nickname + ":" + str);
 				}
 			}
 		} catch (IOException e) {
 			log(e.getMessage());
-		} finally {
+		} finally { // 자원 정리
+			
 			try {
 				if (socket != null && !socket.isClosed()) {
 					socket.close();

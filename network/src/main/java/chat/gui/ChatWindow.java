@@ -24,6 +24,8 @@ import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
+import chat.ChatServer;
+
 public class ChatWindow {
 
 	private static final int SERVER_PORT = 8000;
@@ -33,7 +35,7 @@ public class ChatWindow {
 	private Button buttonSend;
 	private TextField textField;
 	private TextArea textArea;
-
+	private String name;
 	private final Socket socket;
 	private final PrintWriter pw;
 	private final BufferedReader br;
@@ -47,6 +49,7 @@ public class ChatWindow {
 		this.socket = socket;
 		this.br = br;
 		this.pw = pw;
+		this.name = name;
 		
 	}
 
@@ -57,7 +60,6 @@ public class ChatWindow {
 		buttonSend.addActionListener( new ActionListener() {
 			@Override
 			public void actionPerformed( ActionEvent actionEvent ) {
-				//System.out.println("click!!");
 				sendMessage();
 			}
 		});
@@ -123,7 +125,7 @@ public class ChatWindow {
 			}
 		}
 		
-		pw.println("message:" + message);
+		pw.println("message:ok:" +name +":"+ message);
 		
 		textField.setText("");
 		textField.requestFocus();
@@ -137,37 +139,43 @@ public class ChatWindow {
 		
 	}
 	
-	//public void updateJoinList(String )
 	private void finish() {
 		System.exit(0);
 	}
 	
 
 	private class ChatClientThread extends Thread{
+		String response = null;
 		public void run() {
 			try {
 				while(true) {
-					String res = br.readLine();
-					ChatClientApp.log("RESPONSE : " + res);
-					
-					if(res == null) {
+					response = br.readLine();
+					if (response == null) {
+						// 서버에 의한 종료
 						System.out.println("서버와의 연결이 끊어졌습니다.");
 						break;
 					}
+
+					String[] tokens = response.split(":");
+
+					String protocol = tokens[0];
+					String status = tokens[1];
+					String name = tokens[2];
 					
-					String [] tokens = res.split(":", 2);
-					if(tokens == null || tokens.length == 0) {
+					ChatServer.log(response + "이게 지금 알아보고 있는것"); 
+					if (tokens == null || tokens.length == 0) {
 						continue;
 					}
 					
-					if ("message".equals(tokens[0]) && tokens.length >= 2) {
-						updateTextArea(tokens[1]);
-					} else if ("join:ok".equals(res)) {
-						updateTextArea("입장하였습니다. 즐거운 채팅 되세요~!");
+					if("message".equals(protocol)) {
+						if("ok".equals(status)) {
+							updateTextArea(name+ ":" +tokens[3]);
+						}
+					} else if ("join".equals(protocol)) {
+						updateTextArea(name+"님이 입장하였습니다. 즐거운 채팅 되세요~!");
 					}
 				}
 			} catch(IOException e) {
-				System.out.println(e.getMessage());
 			}
 	}	
 	

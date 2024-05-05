@@ -25,16 +25,27 @@ public class ChatClientThread extends Thread {
 					break;
 				}
 
-				String[] tokens = response.split(":", 2);
+				String[] tokens = response.split(":");
 
+				String protocol = tokens[0];
+				String status = tokens[1];
+				String name = tokens[2];
 				if (tokens == null || tokens.length == 0) {
 					continue;
 				}
 
-				if ("message".equals(tokens[0])) {
-					System.out.println(tokens[1]);
-				} else if ("join:ok".equals(response)) {
-					System.out.println("입장하셨습니다. 즐거운 채팅 되세요~!");
+				if ("join".equals(protocol)) {
+					if("ok".equals(status)) {
+						System.out.println(name + "님이 입장하셨습니다. 즐거운 채팅 되세요~!");
+					}
+					else {
+						ChatClient.log("서버 접속에 실패했습니다.");
+					}
+				}
+				else if("message".equals(protocol)) {
+					if("ok".equals(status)) {
+						System.out.println(name+ ":" +tokens[3]);
+					}
 				}
 			}
 		} catch (IOException e) {

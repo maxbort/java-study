@@ -36,6 +36,8 @@ public class ChatServerThread extends Thread {
 			ChatServer.log("connected by client[" + remoteHostAddress + ":" + remotePort + "]");
 
 			// 입출력 스트림 세팅
+			// 클라이언트로 부터 데이터 받아오는 br
+			// 클라이언트에게 데이터를 보내는 pw
 			br = new BufferedReader(new InputStreamReader(socket.getInputStream(),StandardCharsets.UTF_8));
 			pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
 
@@ -47,16 +49,31 @@ public class ChatServerThread extends Thread {
 					break;
 				}
 
-				// 프로토콜 분석, : 기준
-				String[] tokens = request.split(":", 2);
-
-				switch (tokens[0]) {
+				// 프로토콜 분석 : 기준
+				String[] tokens = request.split(":");
+				String protocol = tokens[0];
+				String status = tokens[1];
+				String name = tokens[2];
+				ChatServer.log(request);
+				switch (protocol) {
 				case "join":
-					doJoin(tokens[1], pw);
+					if (status.equals("ok")){
+						doJoin(name, pw);
+					}
+					else {
+						ChatServer.log("서버에 참가하지 못했습니다.");
+						ChatClient.log("서버에 참가하지 못했습니다.");
+					}
 					break;
 				case "message":
-					doMessage(tokens[1]);
+					if(status.equals("ok")) {
+						doMessage(tokens[3]);
+					}
+					else {
+						ChatServer.log("메시지 전송에 싪패하였습니다.");
+					}
 					break;
+					
 				case "quit":
 					doQuit(pw);
 					break;
@@ -69,7 +86,6 @@ public class ChatServerThread extends Thread {
 			ChatServer.log(e.getMessage());
 		}
 		catch (IOException e) {
-		
 			doQuit(pw);
 			ChatServer.log(e.getMessage());
 		} catch (Exception e) {
@@ -90,8 +106,7 @@ public class ChatServerThread extends Thread {
 	// 클라이언트 종료 시 처리
 	private void doQuit(Writer writer) {
 		removeWriter(writer);
-
-		String data = nickname + "님이 나감.";
+		String data = nickname +":님이 나가셨습니다..";
 		ChatServer.log(data);
 		broadcast(data);
 	}
@@ -112,14 +127,13 @@ public class ChatServerThread extends Thread {
 	private void doJoin(String nickname, Writer writer) {
 		this.nickname = nickname;
 
-		String data = nickname + "님이 참여. 즐거운 채팅 되세요.";
-		ChatServer.log(data);
-		broadcast(data);
+		
+		ChatServer.log(nickname+"님이 참여");
+		broadcast(nickname);
 
 		addWriter(writer);
 		
-//		PrintWriter printWriter = (PrintWriter) writer;
-//		printWriter.println("입장하였습니다. 즐거운 채팅 되세요.");
+
 	}
 
 	private void addWriter(Writer writer) {
@@ -132,7 +146,20 @@ public class ChatServerThread extends Thread {
 		synchronized (list) {
 			for (Writer writer : list) {
 				PrintWriter printWriter = (PrintWriter) writer;
-				printWriter.println("message:" + data);
+				String[] tokens = data.split(":");
+				if(tokens.length <=1) {
+					
+					printWriter.println("join:ok:" + data);
+				}
+				else {
+					if ("quit".equals(tokens[0])) {
+						printWriter.println("quit:ok:" + data);
+
+					}
+					printWriter.println("message:ok:" + data);
+
+				}
+				printWriter.flush();
 			}
 		}
 	}

@@ -10,6 +10,8 @@ import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
+import chat.ChatServer;
+
 public class ChatClientApp {
 	private static final int PORT = 8000; 
 
@@ -27,7 +29,7 @@ public class ChatClientApp {
 			
 			if (name != null && !name.isEmpty()) {
 				break;
-			}
+			}	
 			System.out.println("대화명은 한글자 이상 입력해야 합니다.\n");
 		}
 			
@@ -41,7 +43,7 @@ public class ChatClientApp {
 			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
 
 			
-			String request = "join:" + name;
+			String request = "join:ok:" + name;
 			pw.println(request);
 			
 			while (true) {
@@ -50,8 +52,8 @@ public class ChatClientApp {
 					log("연결이 끊어졌습니다.");
 					break;
 				}
-				
-				//if("join:ok".equals(response)) {
+				ChatServer.log(response);
+			//	if("join".equals(response)) {
 					System.out.println(name + "채팅방에 입장하셨습니다.");
 					new ChatWindow(name, socket, br, pw).show();
 					break;

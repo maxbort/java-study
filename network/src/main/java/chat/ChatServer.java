@@ -24,10 +24,10 @@ public class ChatServer {
 			String hostAddress = InetAddress.getLocalHost().getHostAddress();
 			// 서버 소켓 바인드
 			serverSocket.bind(new InetSocketAddress("0.0.0.0", PORT));
-			log("Connection Wait.. " + hostAddress + ":" + PORT);
+			log("연결 대기중.. " + hostAddress + ":" + PORT);
 
 			while (true) {
-				// 클라이언트 연결시 소켓 받아옴. blocking
+				// 클라이언트 연결시 소켓 받아옴. blocking -> 클라이언트가 연결을 요청 시 까지 대기.
 				Socket socket = serverSocket.accept(); 
 				// 받아온 소켓으로 새 스레드 시작
 				new ChatServerThread(socket, list).start();
